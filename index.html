@@ -2,32 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Home - My Portfolio</title>
-  <link rel="stylesheet" href="style1.css">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syed Kazmi - Computer Science Portfolio</title>
+<head>
+  <link id="theme-style" rel="stylesheet" href="style.css">
+  <script src="theme-toggle.js" defer></script>
+</head>
 </head>
 <body>
-  <h1>Howdy!</h1>
-
-  <p>Syed Kazmi here! I am a Computer Science student at Texas A&M University, passionate about software engineering, AI/ML, and Formula 1 technology.</p>
-  <img src="https://img.redbull.com/images/c_crop,x_1069,y_0,h_2667,w_2000/c_fill,w_650,h_867/q_auto,f_auto/redbullcom/2023/11/17/e78hlmyqa2wxo5dnnuxe/max-verstappen-2023-oracle-red-bull-racing" alt="Image of a Max verstappen" height="500"></img>
-
-  <p>This website shares my projects, skills, and contributions.</p>
-
-  <h2>Quick Highlights</h2>
-  <ul>
-    <li>Strong background in coding (C++,Python and a lil basics of Html)</li>
-    <li>Team leader with experience in competitions(TAMUG Hackathon 2024)</li>
-    <li>Interested in F1 engineering software & AI applications</li>
-  </ul>
-
   <nav>
-    <a href="index.html">Home</a> |
-    <a href="projects.html">Projects</a> |
-    <a href="qualification.html">Qualifications</a> |
-    <a href="service.html">Service</a> |
-    <a href="ai.html">AI Page</a>
+    <div class="nav-container">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="qualification.html">Qualifications</a>
+      <a href="service.html">Service</a>
+      <a href="ai.html">AI</a>
+      <button id="theme-toggle">Switch</button>
+    </div>
   </nav>
-  </nav>
+
+  <header>
+    <h1>Howdy,Syed kazmi here!</h1>
+    <p class="subtitle">Computer Science Student & Formula 1 Technology Enthusiast</p>
+  </header>
+
+  <main>
+    <section class="hero">
+      <img src="https://img.redbull.com/images/c_crop,x_1069,y_0,h_2667,w_2000/c_fill,w_650,h_867/q_auto,f_auto/redbullcom/2023/11/17/e78hlmyqa2wxo5dnnuxe/max-verstappen-2023-oracle-red-bull-racing" alt="Max Verstappen Formula 1" class="hero-image">
+      
+      <div class="intro-content">
+        <p>Welcome to my portfolio! I m a passionate Computer Science student at <a href="https://www.tamu.edu/" target="_blank">Texas A&M University</a>, where I'm pursuing my degree with a focus on software engineering, artificial intelligence, and motorsports technology. My fascination with Formula 1 racing drives my interest in real time data processing, predictive analytics, and high performance computing systems.</p>
+        <p>As a dedicated student and aspiring software engineer, I believe in the power of technology to solve complex problems and create innovative solutions. My academic journey has equipped me with decent programming skills in multiple languages, while my passion for Formula 1 has inspired me to explore how technology transforms the world of motorsports. From telemetry data analysis to race strategy optimization, I am fascinated by the intersection of computer science and high speed competition.</p>
+        <p>Beyond academics, I actively participate in co curricular and competitive  events, including the TAMUG Hackathon 2024 where I demonstrated my leadership and technical skills. I'm committed to continuous learning and staying current with emerging technologies, particularly in artificial intelligence and machine learning applications. My goal is to contribute to innovative projects that push the boundaries of what's possible, whether in motorsports technology, software development or AI driven solutions.</p>
+        <p>This portfolio showcases my future projects plans, academic achievements, and community involvement. I invite you to explore my work and discover how my passion for technology and Formula 1 translates . I hope you will find something here that sparks your interest and opens the door to meaningful conversations about the future of technology.</p>
+      </div>
+    </section>
+
+    <section class="highlights">
+      <h2>What Sets Me Apart</h2>
+      <div class="highlight-grid">
+        <div class="highlight-item">
+          <h3>Technical Excellence</h3>
+          <p>Good in C++, Python, Java, and Html.</p>
+        </div>
+        
+        <div class="highlight-item">
+          <h3>Leadership Experience</h3>
+          <p>Successfully led teams in competitive environments, including the TAMUG Hackathon 2024, demonstrating project management and collaboration skills.</p>
+        </div>
+        
+        <div class="highlight-item">
+          <h3>F1 Technology Passion</h3>
+          <p>Deep interest in motorsports engineering particularly in areas like telemetry analysis race strategy optimization, and real time data processing systems used by teams like Red Bull Racing.</p>
+        </div>
+        
+        <div class="highlight-item">
+          <h3>AI & ML Focus</h3>
+          <p>Exploring applications of machine learning and artificial intelligence in predictive analytics and data driven decision making.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-links">
+      <h2>Explore My Work</h2>
+      <div class="link-grid">
+        <a href="projects.html" class="link-card">
+          <h3>Technical Projects</h3>
+          <p>Check my software development future project plans in F1 technology</p>
+        </a>
+        
+        <a href="qualification.html" class="link-card">
+          <h3>Skills & Resume</h3>
+          <p>View my technical qualifications and resume</p>
+        </a>
+        
+        <a href="service.html" class="link-card">
+          <h3>Community Service</h3>
+          <p>Learn about my volunteering contributions to the community</p>
+        </a>
+        
+        <a href="ai.html" class="link-card">
+          <h3>Checkers</h3>
+          <p>Try if you can beat Ai in checkers </p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Syed Kazmi | <a href="https://github.com/CSCE331-Fall-2025/Syed-kazmi" target="_blank">View Source Code</a></p>
+  </footer>
 </body>
 </html>
