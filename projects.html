@@ -2,24 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Resume</title>
-  <link rel="stylesheet" href="style1.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects</title>
+  <link id="theme-style" rel="stylesheet" href="style.css">
+  <script src="theme-toggle.js" defer></script>
 </head>
 <body>
-  <h1>Technical Portfolio</h1>
-  <p>here are some of the projects I have plan to work on:</p>
-
-  <ul>
-    <li><strong>Formula 1 Race Strategy Analyzer</strong> – a project idea to use Python and machine learning to predict optimal pit stop strategies and tire choices during an F1 race. </li>
-  </ul>
-
-
   <nav>
-    <a href="index.html">Home</a> |
-    <a href="projects.html">Projects</a> |
-    <a href="qualification.html">Qualifications</a> |
-    <a href="service.html">Service</a> |
-    <a href="ai.html">AI Page</a>
+    <div class="nav-container">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="qualification.html">Qualifications</a>
+      <a href="service.html">Service</a>
+      <a href="ai.html">AI</a>
+      <button id="theme-toggle">Switch</button>
+    </div>
   </nav>
+
+  <header>
+    <h1>Projects</h1>
+  </header>
+
+  <main>
+    <section class="highlights">
+      <h2>Technical Portfolio</h2>
+      <div class="highlight-grid">
+        <div class="highlight-item">
+          <h3>Formula 1 Race Strategy Analyzer (Future Goal)</h3>
+          <p>I plan to build a project using Python and machine learning to predict optimal pit stop strategies and tire choices during an F1 race</p>
+        </div>
+
+        <div class="highlight-item">
+          <h3>Capstone Project</h3>
+          <p> In my final year at TAMU I plan to build a capstone project that will be focused on solving any real world problem</p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Syed Kazmi | <a href="https://github.com/CSCE331-Fall-2025/Syed-kazmi" target="_blank">View Source Code</a></p>
+    </p>
+  </footer>
 </body>
 </html>
