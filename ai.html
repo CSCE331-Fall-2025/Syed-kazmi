@@ -2,24 +2,227 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AI Page</title>
-  <link rel="stylesheet" href="style1.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkers AI vs Human (Mandatory Captures)</title>
+  <style>
+    body{margin:0;font-family:system-ui,sans-serif;background:#071428;color:white;display:flex;flex-direction:column;min-height:100vh;}
+    nav{background:#0e2740;padding:12px;}
+    .nav-container{display:flex;align-items:center;gap:12px;}
+    .nav-container a, .nav-container button{color:white;text-decoration:none;padding:6px 12px;border-radius:4px;border:none;background:#4444ff;cursor:pointer;}
+    .nav-container button{background:#ffd166;color:#052131;}
+    main{flex:1;display:flex;align-items:flex-start;justify-content:center;gap:24px;padding:24px;}
+    canvas{border:4px solid #ffd166;background:#0e2740;}
+    .panel{position:relative;color:white;max-width:200px;}
+    .stat{margin-bottom:8px;font-weight:600;}
+    button#resetBtn{display:block;margin:4px 0;padding:8px;border:none;border-radius:6px;background:#ffd166;color:#052131;cursor:pointer;}
+    .instructions{background:#0e2740;padding:12px;border:2px solid #ffd166;border-radius:6px;max-width:250px;line-height:1.5;}
+    footer{background:#0e2740;padding:12px;text-align:center;margin-top:auto;}
+    footer a{color:#ffd166;text-decoration:none;}
+  </style>
 </head>
 <body>
-  <h1>The Role of AI in Formula 1 Engineering</h1>
-  <p>Artificial Intelligence is transforming motorsports. From real time race strategy to predictive maintenance and driver performance analysis, AI helps engineers make faster, smarter decisions on race day.</p>
-
-  <h2>Prompt Used</h2>
-  <textarea readonly rows="5" cols="60">
-  Write a professional overview of how artificial intelligence can impact Formula 1 engineering,
-  focusing on strategy, data analysis, and software tools that engineers can use during races.
-  </textarea>
+  <!-- Navigation -->
   <nav>
-    <a href="index.html">Home</a> |
-    <a href="projects.html">Projects</a> |
-    <a href="qualification.html">Qualifications</a> |
-    <a href="service.html">Service</a> |
-    <a href="ai.html">AI Page</a>
+    <div class="nav-container">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="qualification.html">Qualifications</a>
+      <a href="service.html">Service</a>
+      <a href="ai.html">AI</a>
+    </div>
   </nav>
+
+  <!-- Main Content -->
+  <main>
+    <canvas id="game" width="480" height="480" aria-label="Checkers board"></canvas>
+    <div class="panel">
+      <div class="stat">Current Turn: <span id="turn">Human</span></div>
+      <div class="stat">Status: <span id="status">Playing</span></div>
+      <button id="resetBtn">Reset</button>
+      <div class="instructions">
+        <h3>Game Instructions:</h3>
+        <ul>
+          <li>Red: Human, Blue: AI.</li>
+          <li>Click a red piece to select it.</li>
+          <li>Move diagonally to empty squares.</li>
+          <li>Capture opponent pieces by jumping over them.</li>
+          <li>If a capture is available, you <strong>must</strong> take it.</li>
+          <li>The game ends when one side has no pieces left.</li>
+        </ul>
+      </div>
+    </div>
+<div class="panel">
+  <button id="showPromptBtn">Show Game Prompt</button>
+  <div id="gamePrompt" style="display:none; margin-top:12px; padding:12px; background:#0e2740; border:2px solid #ffd166; border-radius:6px; line-height:1.5;">
+    <h3>Checkers AI vs Human</h3>
+    <p>lets make an ai vs human checkers game using html,java,css, make sure id there is a mandantory grab...ai or human had to grab it no matter what. </p>
+      </div>
+</div>
+
+  </main>
+    <footer>
+    <p>&copy; 2025 Syed Kazmi | 
+      <a href="https://github.com/CSCE331-Fall-2025/Syed-kazmi" target="_blank">View Source Code</a>
+    </p>
+  </footer>
+
+<script>
+(function(){
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const size = 8;
+  const tileSize = canvas.width / size;
+  let board = [];
+  let selected = null;
+  let turn = 'human';
+  const turnEl = document.getElementById('turn');
+  const statusEl = document.getElementById('status');
+
+  function initBoard(){
+    board = Array.from({length:size},(_,y)=>Array.from({length:size},(_,x)=>{
+      if((x+y)%2===1 && y<3) return 'b';
+      if((x+y)%2===1 && y>4) return 'r';
+      return null;
+    }));
+    selected = null;
+    turn = 'human';
+    turnEl.textContent = 'Human';
+    statusEl.textContent = 'Playing';
+    draw();
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(let y=0;y<size;y++){
+      for(let x=0;x<size;x++){
+        ctx.fillStyle = (x+y)%2===0?'#ffd166':'#0e2740';
+        ctx.fillRect(x*tileSize,y*tileSize,tileSize,tileSize);
+        const p = board[y][x];
+        if(p){
+          ctx.beginPath();
+          ctx.arc(x*tileSize+tileSize/2,y*tileSize+tileSize/2,tileSize/2-4,0,2*Math.PI);
+          ctx.fillStyle = p==='r'?'#ff4c4c':'#4444ff';
+          ctx.fill();
+        }
+      }
+    }
+    if(selected){
+      ctx.strokeStyle='#66ff66';
+      ctx.lineWidth=4;
+      ctx.strokeRect(selected.x*tileSize,selected.y*tileSize,tileSize,tileSize);
+    }
+  }
+
+  function getValidMoves(x,y){
+    const p = board[y][x];
+    if(!p) return [];
+    const moves = [];
+    const dir = p==='r'? -1:1;
+    let capturesExist = false;
+
+    [[1,dir],[-1,dir]].forEach(([dx,dy])=>{
+      const nx=x+dx, ny=y+dy;
+      if(nx>=0 && nx<size && ny>=0 && ny<size){
+        if(board[ny][nx] && board[ny][nx]!==p){
+          const cx=nx+dx, cy=ny+dy;
+          if(cx>=0 && cx<size && cy>=0 && cy<size && !board[cy][cx]){
+            moves.push({x:cx,y:cy,capture:{x:nx,y:ny}});
+            capturesExist = true;
+          }
+        }
+      }
+    });
+
+    if(capturesExist) return moves;
+
+    [[1,dir],[-1,dir]].forEach(([dx,dy])=>{
+      const nx=x+dx, ny=y+dy;
+      if(nx>=0 && nx<size && ny>=0 && ny<size && !board[ny][nx]){
+        moves.push({x:nx,y:ny});
+      }
+    });
+    return moves;
+  }
+
+  canvas.addEventListener('click',e=>{
+    if(turn!=='human') return;
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((e.clientX-rect.left)/tileSize);
+    const y = Math.floor((e.clientY-rect.top)/tileSize);
+
+    if(selected){
+      const moves = getValidMoves(selected.x,selected.y);
+      const move = moves.find(m=>m.x===x && m.y===y);
+      if(move){
+        board[move.y][move.x]=board[selected.y][selected.x];
+        board[selected.y][selected.x]=null;
+        if(move.capture){board[move.capture.y][move.capture.x]=null;}
+        selected=null;
+        turn='ai';
+        turnEl.textContent='AI';
+        draw();
+        setTimeout(aiMove,300);
+        checkWin();
+        return;
+      }
+    }
+    if(board[y][x]==='r') selected={x,y};
+    draw();
+  });
+
+  function aiMove(){
+    const moves=[];
+    let captureMovesExist=false;
+    for(let y=0;y<size;y++){
+      for(let x=0;x<size;x++){
+        if(board[y][x]==='b'){
+          const ms = getValidMoves(x,y);
+          if(ms.some(m=>m.capture)) captureMovesExist=true;
+          ms.forEach(m=>moves.push({from:{x,y},to:m}));
+        }
+      }
+    }
+    if(moves.length===0){statusEl.textContent='Human Wins!'; return;}
+
+    let choice;
+    if(captureMovesExist){
+      const capMoves = moves.filter(m=>m.to.capture);
+      choice = capMoves[Math.floor(Math.random()*capMoves.length)];
+    } else {
+      choice = moves[Math.floor(Math.random()*moves.length)];
+    }
+
+    board[choice.to.y][choice.to.x]=board[choice.from.y][choice.from.x];
+    board[choice.from.y][choice.from.x]=null;
+    if(choice.to.capture){board[choice.to.capture.y][choice.to.capture.x]=null;}
+    turn='human';
+    turnEl.textContent='Human';
+    draw();
+    checkWin();
+  }
+
+  function checkWin(){
+    const reds = board.flat().filter(p=>p==='r').length;
+    const blues = board.flat().filter(p=>p==='b').length;
+    if(reds===0){statusEl.textContent='AI Wins!';}
+    if(blues===0){statusEl.textContent='Human Wins!';}
+  }
+
+  document.getElementById('resetBtn').addEventListener('click',initBoard);
+  initBoard();
+})();
+// Prompt toggle
+document.getElementById('showPromptBtn').addEventListener('click', () => {
+  const promptBox = document.getElementById('gamePrompt');
+  if (promptBox.style.display === 'none') {
+    promptBox.style.display = 'block';
+    document.getElementById('showPromptBtn').textContent = 'Hide Game Prompt';
+  } else {
+    promptBox.style.display = 'none';
+    document.getElementById('showPromptBtn').textContent = 'Show Game Prompt';
+  }
+});
+
+</script>
 </body>
 </html>
